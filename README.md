@@ -1,5 +1,23 @@
 # CT_GUI
 
+
+
+├── GUI.py  # CT core code
+├── XPS_Q8_drivers.py  # motor driver
+├── __pycache__
+│   ├── XPS_Q8_drivers.cpython-35.pyc
+│   └── mainwindow.cpython-35.pyc
+├── conf.json  # some configuration
+├── conf_1.json  
+├── conf_2.json
+├── conf_3.json
+├── main.py  # CLI for CT
+├── mainwindow.py  # GUI code from turnning mainwindow.ui by tool of pic
+└── mainwindow.ui  # qtDisigner create a ui file
+
+
+
+
 ---
 2016-04-28：
 
