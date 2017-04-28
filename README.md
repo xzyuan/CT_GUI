@@ -4,7 +4,9 @@
 2016-04-28：
 
 motor move page has completed.
+
 using *.json files to configurate scanning parameters.
+
 3 *.json files corresponde to 3 modes. 
 
 ---
