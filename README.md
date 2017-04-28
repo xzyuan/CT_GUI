@@ -1,5 +1,7 @@
 # CT_GUI
 
+## Structure
+
 ```
 ├── GUI.py  # CT core code
 ├── XPS_Q8_drivers.py  # motor driver
@@ -15,6 +17,8 @@
 └── mainwindow.ui  # qtDisigner create a ui file
 ```
 
+
+## working log
 
 ---
 2016-04-28：
