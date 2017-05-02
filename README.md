@@ -21,6 +21,11 @@
 ## working log
 
 ---
+2016-05-02：
+
+* modify Json.py, add some important parameter
+
+---
 2016-04-28：
 
 * motor move page has completed.
