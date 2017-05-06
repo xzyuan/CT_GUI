@@ -21,6 +21,24 @@
 ## working log
 
 ---
+2016-05-07:
+
+* add log window. 
+
+* logfile name with the date. each day has one logfile
+
+* every actions will add in log file.
+
+* add connect failed massage window
+
+
+---
+2016-05-06：
+
+* add Login window.
+
+
+---
 2016-04-28：
 
 * motor move page has completed.

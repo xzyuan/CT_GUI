@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -412,7 +412,7 @@
         <string notr="true">background-color: rgb(0, 255, 0);</string>
        </property>
        <property name="text">
-        <string>启动</string>
+        <string>移动</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_displacement_move_stop_move">
@@ -433,12 +433,12 @@
         <string notr="true">background-color:rgb(255, 0, 0)</string>
        </property>
        <property name="text">
-        <string>急停</string>
+        <string>KILL</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="btn_displacement_move_save_all">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -454,7 +454,7 @@
         </font>
        </property>
        <property name="text">
-        <string>回复负零位</string>
+        <string>保存参数</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_displacement_move_initiallize_motor">
@@ -470,9 +470,9 @@
         <string>初始化</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="btn_displacement_move_kill_all">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -488,12 +488,12 @@
         </font>
        </property>
        <property name="text">
-        <string>清零</string>
+        <string>KILL ALL</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_6">
+      <widget class="QPushButton" name="btn_displacement_move_upload">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -509,9 +509,244 @@
         </font>
        </property>
        <property name="text">
-        <string>回归正零位</string>
+        <string>上传参数</string>
        </property>
       </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>CT扫描</string>
+     </attribute>
+     <widget class="QWidget" name="gridLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>30</y>
+        <width>341</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="6" column="1">
+        <widget class="QComboBox" name="comboBox_CTscan_scan_mode">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <item>
+          <property name="text">
+           <string>Mode_1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Mode_2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Mode_3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Mode_4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Mode_5</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_25">
+         <property name="text">
+          <string>样品台轴向步进长度 L：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>样品高度 H:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="maximumSize">
+          <size>
+           <width>179</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>扫描方式:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_L"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_K"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="QPushButton" name="btn_CTscan_stop_scan">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 0, 0);</string>
+         </property>
+         <property name="text">
+          <string>急停</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QPushButton" name="btn_CTscan_parameter_write">
+         <property name="text">
+          <string>写入以上参数</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="btn_CTscan_start_scan">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(0, 255, 0);</string>
+         </property>
+         <property name="text">
+          <string>开始扫描</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_N"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>G1光栅步进数 N:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>每圈采集次数 K：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_H"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>G1光栅周期 P:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_P"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>操作日志</string>
+     </attribute>
+     <widget class="QTextEdit" name="textEdit_log_daily_log">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>90</y>
+        <width>401</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit_log_manual_record">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>90</y>
+        <width>211</width>
+        <height>201</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_log_write">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>320</y>
+        <width>211</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>写入日志</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>40</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>当天操作历史</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>40</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>手动记录</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -781,174 +1016,6 @@
      <attribute name="title">
       <string>图像采集</string>
      </attribute>
-    </widget>
-    <widget class="QWidget" name="tab_4">
-     <attribute name="title">
-      <string>CT扫描</string>
-     </attribute>
-     <widget class="QWidget" name="verticalLayoutWidget_3">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>70</y>
-        <width>191</width>
-        <height>281</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_17">
-         <property name="maximumSize">
-          <size>
-           <width>179</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>扫描方式</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBox_CTscan_scan_mode">
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-          </font>
-         </property>
-         <item>
-          <property name="text">
-           <string>相位步进</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>反转投影</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>泽尼特</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_CTscan_start_scan">
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(0, 255, 0);</string>
-         </property>
-         <property name="text">
-          <string>开始扫描</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_CTscan_stop_scan">
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 0, 0);</string>
-         </property>
-         <property name="text">
-          <string>急停</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_5">
-     <attribute name="title">
-      <string>操作日志</string>
-     </attribute>
-     <widget class="QTextEdit" name="textEdit">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>90</y>
-        <width>401</width>
-        <height>291</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="textEdit_2">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>90</y>
-        <width>211</width>
-        <height>201</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_17">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>320</y>
-        <width>211</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>15</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>写入日志</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_18">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>40</y>
-        <width>231</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>15</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>当天操作历史</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_19">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>40</y>
-        <width>101</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>15</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>手动记录</string>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="tab_6">
      <attribute name="title">

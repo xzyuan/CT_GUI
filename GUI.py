@@ -1,9 +1,10 @@
 import XPS_Q8_drivers
 import sys
 import time
+import json
 
 from PyQt5.QtCore import pyqtSlot, pyqtSignal
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDialog, QMessageBox
 from mainwindow import Ui_MainWindow
 
 # Display error function: simplify error print out and closes socket
@@ -23,13 +24,20 @@ def displayErrorAndClose (socketId, errorCode, APIName):
 # Instantiate the class
 myxps = XPS_Q8_drivers.XPS()
 # Connect to the XPS
-socketId_253 = myxps.TCP_ConnectToServer('192.168.0.253', 5001, 20) # Check connection passed
-socketId_254 = myxps.TCP_ConnectToServer('192.168.0.254', 5001, 20) # Check connection passed
+socketId_253 = myxps.TCP_ConnectToServer('192.168.0.253', 5001, 20)  # Check connection passed
+socketId_254 = myxps.TCP_ConnectToServer('192.168.0.254', 5001, 20)  # Check connection passed
 
 if socketId_253 == -1 or socketId_254 == -1:
     print ('Connection to XPS failed, check IP & Port')
+
     # TODO : qmassage! : and quit
-    sys.exit ()
+    app = QApplication(sys.argv)
+    str_conectfail = 'Connection to XPS failed, check IP & Port'
+    msg = QMessageBox()
+    msg.setText(str_conectfail)
+    msg.exec()
+
+    sys.exit()
 
 # Define the positioner
 # group = 'Group7'
@@ -64,8 +72,25 @@ class Motor(QMainWindow):
         self.ui.comboBox_displacement_move_displacement_comboBox_displacement_move_displacement_axis.currentIndexChanged.connect(self.change_Initiallize_btn)
         self.ui.comboBox_displacement_move_displacement_type.currentIndexChanged.connect(self.change_Initiallize_btn)
 
+        # log
+        self.ui.btn_log_write.clicked.connect(self.write_manual_log)
+        self.ui.textEdit_log_daily_log.textChanged.connect(self.write_daily_log)
+
+        # scanning
+        self.ui.btn_CTscan_start_scan.clicked.connect(self.start_scan)
+        self.ui.btn_CTscan_stop_scan.clicked.connect(self.stop_scan)
+        self.ui.btn_CTscan_parameter_write.clicked.connect(self.CTscan_parameter_write)
+
+
+
+        # after login, write some log
+        self.write_start_log()
+
     # initiallized motor name, to make some button enable or disable
     initiallize_motor_list = []
+
+    # CTscan stop flag
+    CTscan_stop_flag = True
 
     def get_motor_name(self):
         """ :return motor name"""
@@ -74,6 +99,85 @@ class Motor(QMainWindow):
                     self.ui.comboBox_displacement_move_displacement_type.currentText()
         return str(motorname)
 
+
+#    CT scan
+    def start_scan(self):
+        with open('conf.json', 'r') as f:
+            CTscan_parameter = json.load(f)
+
+        mode = self.ui.comboBox_CTscan_scan_mode.currentText()
+        if mode == "Mode_1":
+            print(CTscan_parameter)
+        elif mode == "Mode_2":
+            print("mode2")
+        elif mode == "Mode_3":
+            print("mode2")
+        elif mode == "Mode_4":
+            print("mode2")
+        elif mode == "Mode_5":
+            print("mode2")
+
+    def stop_scan(self):
+        self.CTscan_stop_flag = False
+
+    def CTscan_parameter_write(self):
+        CTscan_parameter = {
+            "G1光栅周期P": 0,  # 周期 P
+            "G1光栅步进步数N": 0,  # N - 1 次， 每次步进 P / N
+            "样品转台采集次数K": 0,  # 一圈要采集 K 次, 每次动 2π / K
+            "样品高度H": 0,
+            "样品台轴向步进长度L": 0,
+            "样品台轴向步进层数M": 0  # 步数 M = [H / L] 向上取整 ， 每次走L， 样品高度 H
+        }
+        CTscan_parameter["G1光栅步进步数N"] = self.ui.lineEdit_CTscan_parameter_N.text()
+        CTscan_parameter["G1光栅周期P"] = self.ui.lineEdit_CTscan_parameter_P.text()
+        CTscan_parameter["样品转台采集次数K"] = self.ui.lineEdit_CTscan_parameter_K.text()
+        CTscan_parameter["样品台轴向步进长度L"] = self.ui.lineEdit_CTscan_parameter_L.text()
+        CTscan_parameter["样品高度H"] = self.ui.lineEdit_CTscan_parameter_H.text()
+        # TODO 向上取整 ？
+
+        # TODO 参数限制
+        try:
+            H = float(CTscan_parameter["样品高度H"])
+            L = float(CTscan_parameter["样品台轴向步进长度L"])
+        except ValueError:
+            msg = QMessageBox()
+            msg.setText("非法值")
+            msg.show()
+
+        CTscan_parameter["样品台轴向步进层数M"] = H / L
+
+        with open('conf.json', 'w') as f:
+            json.dump(CTscan_parameter, f)
+
+
+#    log
+    def write_start_log(self):
+        ''' after login ,write the login log '''
+        currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        dailylog = "\n" + currtime + " " + "login."
+        self.ui.textEdit_log_daily_log.append(dailylog)
+
+    def write_manual_log(self):
+        manual_log = self.ui.textEdit_log_manual_record.toPlainText()
+
+        # write log
+        currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        dailylog = currtime + " " + manual_log
+        self.ui.textEdit_log_daily_log.append(dailylog)
+
+    def write_daily_log(self):
+        """build a file named with the date. log is a string add to the log file"""
+        logfilename = time.strftime("%Y-%m-%d", time.localtime()) + ".txt"
+        log = self.ui.textEdit_log_daily_log.toPlainText()
+        # f = open(logfilename, 'a', encoding='utf-8')
+        # f.write(log)
+        # f.close()
+        with open(logfilename, 'a', encoding='utf-8') as f:
+            f.write(log)
+
+
+#    motor move
     def change_Initiallize_btn(self):
         """ only the motor is not initiallized can be initiallize"""
         motorname = self.get_motor_name()
@@ -122,6 +226,11 @@ class Motor(QMainWindow):
             displayErrorAndClose(socketId, errorCode, 'GroupHomeSearch')
             sys.exit()
 
+        # write log
+        currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        dailylog = currtime + " " + motorname + " has been initialized !"
+        self.ui.textEdit_log_daily_log.append(dailylog)
+
         self.ui.btn_displacement_move_start_move.setEnabled(True)
         self.ui.btn_displacement_move_stop_move.setEnabled(True)
         self.ui.btn_displacement_move_initiallize_motor.setEnabled(False)
@@ -144,16 +253,20 @@ class Motor(QMainWindow):
         absPosition.append(float(self.ui.lineEdit_displacement_move_input_displacement.text()))
 
         [errorCode, returnString] = myxps.GroupMoveAbsolute(socketId, motor_positioner, absPosition)
-        # print returnString
 
         if (errorCode != 0):
             displayErrorAndClose(socketId, errorCode, 'GroupMoveAbsolute')
             sys.exit()
 
+        # write log
+        currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        dailylog = currtime + " " + motorname + " move absolutely to " + " %f" % (absPosition[0])
+        self.ui.textEdit_log_daily_log.append(dailylog)
+
         self.ui.btn_displacement_move_start_move.setEnabled(True)
 
-        print(motor_positioner + " move absolute to ",)
-        print(absPosition[0])
+        # print(motor_positioner + " move absolute to ",)
+        # print(absPosition[0])
 
     def motor_stop_move(self):
         self.ui.btn_displacement_move_start_move.setEnabled(False)
@@ -168,10 +281,16 @@ class Motor(QMainWindow):
 
         # Kill the group
         [errorCode, returnString] = myxps.GroupKill(socketId, group)
-        print (returnString)
+        # print (returnString)
+
         if errorCode != 0:
             displayErrorAndClose(socketId, errorCode, 'GroupKill')
             sys.exit()
+
+        # write log
+        currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        dailylog = currtime + " " + motorname + " has been killed !"
+        self.ui.textEdit_log_daily_log.append(dailylog)
 
         self.initiallize_motor_list.remove(motorname)
         self.ui.btn_displacement_move_stop_move.setEnabled(False)
@@ -186,8 +305,12 @@ class Motor(QMainWindow):
 
 if __name__ == '__main__':
     import sys
+    from Login import Login
 
     app = QApplication(sys.argv)
-    Motor = Motor()
-    Motor.show()
-    sys.exit(app.exec_())
+    login = Login()
+    if login.exec_() == QDialog.Accepted:
+        Motor = Motor()
+        Motor.show()
+        sys.exit(app.exec_())
+
