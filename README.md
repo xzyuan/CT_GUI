@@ -21,6 +21,15 @@
 ## working log
 
 ---
+2016-05-08:
+
+* add sigle motor move parameter save button and upload button.
+ 
+* add H / L round up to an integer
+
+
+
+---
 2016-05-07:
 
 * add log window. 

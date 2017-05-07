@@ -2,6 +2,7 @@ import XPS_Q8_drivers
 import sys
 import time
 import json
+import math
 
 from PyQt5.QtCore import pyqtSlot, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDialog, QMessageBox
@@ -68,6 +69,10 @@ class Motor(QMainWindow):
         self.ui.btn_displacement_move_start_move.clicked.connect(self.motor_start_move)
         self.ui.btn_displacement_move_stop_move.clicked.connect(self.motor_stop_move)
 
+        self.ui.btn_displacement_move_kill_all.clicked.connect(self.motor_kill_all)
+        self.ui.btn_displacement_move_upload.clicked.connect(self.motor_parameter_upload)
+        self.ui.btn_displacement_move_save_all.clicked.connect(self.motor_parameter_save_all)
+
         self.ui.comboBox_displacement_move_displacement_number.currentIndexChanged.connect(self.change_Initiallize_btn)
         self.ui.comboBox_displacement_move_displacement_comboBox_displacement_move_displacement_axis.currentIndexChanged.connect(self.change_Initiallize_btn)
         self.ui.comboBox_displacement_move_displacement_type.currentIndexChanged.connect(self.change_Initiallize_btn)
@@ -86,11 +91,19 @@ class Motor(QMainWindow):
         # after login, write some log
         self.write_start_log()
 
+
+
     # initiallized motor name, to make some button enable or disable
     initiallize_motor_list = []
 
     # CTscan stop flag
     CTscan_stop_flag = True
+
+    motor_abs_move = {'G1光栅Y平移': 0, '样品台Z平移': 0, '样品台Y旋转': 0, '样品台Y平移': 0,
+                     'G1光栅Y旋转': 0, 'G2光栅Z平移': 0, 'G0光栅Z平移': 0, 'G1光栅Z平移': 0,
+                     'G0光栅X旋转': 0, 'G0光栅Y旋转': 0, 'G0光栅Z旋转': 0, 'G1光栅X旋转': 0,
+                     'G1光栅Z旋转': 0, 'G2光栅X旋转': 0, 'G2光栅Y旋转': 0, 'G2光栅Z旋转': 0}
+
 
     def get_motor_name(self):
         """ :return motor name"""
@@ -134,9 +147,8 @@ class Motor(QMainWindow):
         CTscan_parameter["样品转台采集次数K"] = self.ui.lineEdit_CTscan_parameter_K.text()
         CTscan_parameter["样品台轴向步进长度L"] = self.ui.lineEdit_CTscan_parameter_L.text()
         CTscan_parameter["样品高度H"] = self.ui.lineEdit_CTscan_parameter_H.text()
-        # TODO 向上取整 ？
 
-        # TODO 参数限制
+        # TODO 参数限制  How to restrict user input in QLineEdit in pyqt
         try:
             H = float(CTscan_parameter["样品高度H"])
             L = float(CTscan_parameter["样品台轴向步进长度L"])
@@ -145,7 +157,7 @@ class Motor(QMainWindow):
             msg.setText("非法值")
             msg.show()
 
-        CTscan_parameter["样品台轴向步进层数M"] = H / L
+        CTscan_parameter["样品台轴向步进层数M"] = math.ceil(H / L)
 
         with open('conf.json', 'w') as f:
             json.dump(CTscan_parameter, f)
@@ -186,6 +198,8 @@ class Motor(QMainWindow):
             self.ui.btn_displacement_move_start_move.setEnabled(False)
             self.ui.btn_displacement_move_stop_move.setEnabled(False)
         else:
+            self.ui.lineEdit_displacement_move_current_displacement.setText(str(self.motor_abs_move[motorname]))
+
             self.ui.btn_displacement_move_initiallize_motor.setEnabled(False)
             self.ui.btn_displacement_move_start_move.setEnabled(True)
             self.ui.btn_displacement_move_stop_move.setEnabled(True)
@@ -226,6 +240,8 @@ class Motor(QMainWindow):
             displayErrorAndClose(socketId, errorCode, 'GroupHomeSearch')
             sys.exit()
 
+        self.ui.lineEdit_displacement_move_current_displacement.setText('0')
+
         # write log
         currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         dailylog = currtime + " " + motorname + " has been initialized !"
@@ -254,9 +270,12 @@ class Motor(QMainWindow):
 
         [errorCode, returnString] = myxps.GroupMoveAbsolute(socketId, motor_positioner, absPosition)
 
-        if (errorCode != 0):
+        if errorCode != 0:
             displayErrorAndClose(socketId, errorCode, 'GroupMoveAbsolute')
             sys.exit()
+
+        self.motor_abs_move[motorname] = absPosition[0]
+        self.ui.lineEdit_displacement_move_current_displacement.setText(str(absPosition[0]))
 
         # write log
         currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -281,11 +300,13 @@ class Motor(QMainWindow):
 
         # Kill the group
         [errorCode, returnString] = myxps.GroupKill(socketId, group)
-        # print (returnString)
 
         if errorCode != 0:
             displayErrorAndClose(socketId, errorCode, 'GroupKill')
             sys.exit()
+
+        # push the kill button will make motor move parameter = 0
+        self.motor_abs_move[motorname] = 0
 
         # write log
         currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -297,6 +318,93 @@ class Motor(QMainWindow):
         self.ui.btn_displacement_move_initiallize_motor.setEnabled(True)
 
         print(group + " Group killed ")
+
+    def motor_kill_all(self):
+
+        for motorname in self.initiallize_motor_list:
+            if motorname in MotorDict_253.keys():
+                group = str(MotorDict_253[motorname][0: 6])
+                socketId = socketId_253
+            else:
+                group = str(MotorDict_254[motorname][0: 6])
+                socketId = socketId_254
+
+            # Kill the group
+            [errorCode, returnString] = myxps.GroupKill(socketId, group)
+            # print (returnString)
+
+            self.initiallize_motor_list.remove(motorname)
+
+
+        # write log
+        currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        dailylog = currtime + " kill all motor. "
+        self.ui.textEdit_log_daily_log.append(dailylog)
+
+    def motor_parameter_upload(self):
+        filename = "move_parameter.json"
+        with open(filename, 'r') as f:
+            self.motor_abs_move = json.load(f)
+
+        self.initiallize_motor_list.clear()
+
+        for motorname in self.motor_abs_move:
+
+            if motorname in MotorDict_253.keys():
+                group = str(MotorDict_253[motorname][0: 6])
+                motor_positioner = MotorDict_253[motorname]
+                socketId = socketId_253
+            else:
+                group = str(MotorDict_254[motorname][0: 6])
+                motor_positioner = MotorDict_254[motorname]
+                socketId = socketId_254
+
+            if self.motor_abs_move[motorname] == 0:
+                continue
+
+            self.initiallize_motor_list.append(motorname)
+
+            [errorCode, returnString] = myxps.GroupKill(socketId, group)
+
+            if errorCode != 0:
+                displayErrorAndClose(socketId, errorCode, 'GroupKill')
+                sys.exit()
+
+            [errorCode, returnString] = myxps.GroupInitialize(socketId, group)
+
+            if errorCode != 0:
+                displayErrorAndClose(socketId, errorCode, 'GroupInitialize')
+                sys.exit()
+
+            [errorCode, returnString] = myxps.GroupHomeSearch(socketId, group)
+
+            if errorCode != 0:
+                displayErrorAndClose(socketId, errorCode, 'GroupHomeSearch')
+                sys.exit()
+
+            absPosition = []
+            absPosition.append(float(self.motor_abs_move[motorname]))
+            [errorCode, returnString] = myxps.GroupMoveAbsolute(socketId, motor_positioner, absPosition)
+            if errorCode != 0:
+                displayErrorAndClose(socketId, errorCode, 'GroupMoveAbsolute')
+                sys.exit()
+
+            self.ui.lineEdit_displacement_move_current_displacement.setText(str(absPosition[0]))
+
+
+
+
+    def motor_parameter_save_all(self):
+        ''' save the motor_abs_move dict in move_parameter.json'''
+        filename = "move_parameter.json"
+        with open(filename, 'w') as f:
+            json.dump(self.motor_abs_move, f)
+
+        # write log
+        currtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        dailylog = currtime + " save all parameter. "
+        self.ui.textEdit_log_daily_log.append(dailylog)
+
 
 
     def get_picture(self):
