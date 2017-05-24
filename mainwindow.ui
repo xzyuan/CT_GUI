@@ -24,8 +24,82 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
+    <widget class="QWidget" name="tab_7">
+     <attribute name="title">
+      <string>装置介绍</string>
+     </attribute>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>30</y>
+        <width>701</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>./整体视图.jpg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>390</y>
+        <width>701</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>用户名：   </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_login_username">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>          密码：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_login_passwd">
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_login">
+         <property name="text">
+          <string>登录</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>位移运动控制</string>
@@ -75,11 +149,6 @@
        <layout class="QGridLayout" name="_2">
         <item row="2" column="1">
          <widget class="QComboBox" name="comboBox_displacement_move_displacement_number">
-          <item>
-           <property name="text">
-            <string>X光机</string>
-           </property>
-          </item>
           <item>
            <property name="text">
             <string>G0光栅</string>
@@ -286,8 +355,8 @@
      <widget class="QFrame" name="frame_2">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>10</y>
+        <x>300</x>
+        <y>20</y>
         <width>551</width>
         <height>211</height>
        </rect>
@@ -302,9 +371,9 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>30</y>
-         <width>171</width>
-         <height>161</height>
+         <y>40</y>
+         <width>121</width>
+         <height>111</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -332,27 +401,15 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>编码器读数</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="verticalLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>170</x>
          <y>30</y>
-         <width>171</width>
-         <height>161</height>
+         <width>211</width>
+         <height>131</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -373,8 +430,53 @@
           </property>
          </widget>
         </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>40</y>
+         <width>121</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QLineEdit" name="lineEdit_3"/>
+         <widget class="QLabel" name="label_displacement_move_unit1">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>45</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>mm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_displacement_move_unit2">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>mm</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -537,27 +639,32 @@
          </property>
          <item>
           <property name="text">
-           <string>Mode_1</string>
+           <string>传统相位步进</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Mode_2</string>
+           <string>交叉相位步进</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Mode_3</string>
+           <string>周相位步进</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Mode_4</string>
+           <string>免相位步进</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Mode_5</string>
+           <string>正反投影</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>备用</string>
           </property>
          </item>
         </widget>
@@ -565,7 +672,7 @@
        <item row="4" column="0">
         <widget class="QLabel" name="label_25">
          <property name="text">
-          <string>样品台轴向步进长度 L：</string>
+          <string>样品视场Y方向长度 L：</string>
          </property>
         </widget>
        </item>
@@ -595,10 +702,18 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_L"/>
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_L">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_K"/>
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_K">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
        </item>
        <item row="7" column="1">
         <widget class="QPushButton" name="btn_CTscan_stop_scan">
@@ -638,7 +753,11 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_N"/>
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_N">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_22">
@@ -655,7 +774,11 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_H"/>
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_H">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_21">
@@ -665,7 +788,11 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_P"/>
+        <widget class="QLineEdit" name="lineEdit_CTscan_parameter_P">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -1020,11 +1147,6 @@
     <widget class="QWidget" name="tab_6">
      <attribute name="title">
       <string>装置维护</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab_7">
-     <attribute name="title">
-      <string>实验室介绍</string>
      </attribute>
     </widget>
    </widget>
