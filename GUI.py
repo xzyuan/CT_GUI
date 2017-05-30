@@ -4,7 +4,7 @@ import json
 import math
 
 # from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDialog, QMessageBox, QProgressBar
+from PyQt5.QtWidgets import *
 from mainwindow import Ui_MainWindow
 from PyQt5.QtCore import *
 from Motor import Motor
@@ -12,39 +12,51 @@ from Motor import Motor
 class Thread4Motor(QThread):
 
     finishOneMotor = pyqtSignal(str)
-    motor_stop = False  # 表示电机是否停止
-    motor = Motor( )
+    # motor_stop = False  # 表示电机是否停止
+    # motor = Motor( )
 
     def __init__(self):
         super().__init__()
-        self.mutex = QMutex()
-
+        # self.mutex = QMutex()
+        self.motor_stop = False
 
     def run(self):
-        filename = "move_parameter.json"
-        with open(filename, 'r') as f:
-            self.motor_abs_move = json.load(f)
+        self.motor_stop = False
+        for x in range(1000):
+            # with QMutexLocker(self.mutex):
+            if self.motor_stop:
+                print("sssss")
+                break
+            print(str(x) + "is running")
+            time.sleep(1)
 
-        for motorname in self.motor_abs_move:
-            # 当前电机位移参数为0，则跳过
-            if self.motor_abs_move[motorname] == 0:
-                continue
-            self.motor.initiallize_single(motorname)
-
-            with QMutexLocker(self.mutex):
-                if self.motor_stop:
-                    break
-                absPosition = float(self.motor_abs_move[motorname])
-                self.motor.move_abs(motorname, absPosition)
-                # 当前电机运行完成发送发送电机名
-                self.finishOneMotor.emit(motorname)
+        # filename = "move_parameter.json"
+        # with open(filename, 'r') as f:
+        #     self.motor_abs_move = json.load(f)
+        #
+        # for motorname in self.motor_abs_move:
+        #     # 当前电机位移参数为0，则跳过
+        #     if self.motor_abs_move[motorname] == 0:
+        #         continue
+        #     self.motor.initiallize_single(motorname)
+        #
+        #     # with QMutexLocker(self.mutex):
+        #     # if self.motor_stop:
+        #         # self.motor.move_abort(motorname)
+        #         # break
+        #
+        #     absPosition = float(self.motor_abs_move[motorname])
+        #     self.motor.move_abs(motorname, absPosition)
+        #     # print(motorname + str(absPosition))
+        #     # 当前电机运行完成发送发送电机名
+        #     self.finishOneMotor.emit(motorname)
 
     def motor_stop_move(self):
-        with QMutexLocker(self.mutex):
-            print("thread stop")
-            self.motor_stop = True
-            for motorname in self.motor_abs_move:
-                self.motor.kill(motorname)
+        # with QMutexLocker(self.mutex):
+        print("thread stop")
+        self.motor_stop = True
+            # for motorname in self.motor_abs_move:
+            #     self.motor.kill(motorname)
 
 
 class GUI(QMainWindow):
@@ -92,6 +104,10 @@ class GUI(QMainWindow):
         self.ui.comboBox_displacement_move_displacement_comboBox_displacement_move_displacement_axis.currentIndexChanged.connect(self.change_Initiallize_btn)
         self.ui.comboBox_displacement_move_displacement_type.currentIndexChanged.connect(self.change_Initiallize_btn)
 
+        self.ui.btn_displacement_move_start_move.setEnabled(False)
+        self.ui.btn_displacement_move_stop_move.setEnabled(False)
+        self.ui.btn_displacement_move_initiallize_motor.setEnabled(True)
+        
         # log
         self.ui.btn_log_write.clicked.connect(self.write_manual_log)
         self.ui.textEdit_log_daily_log.textChanged.connect(self.write_daily_log)
@@ -101,12 +117,20 @@ class GUI(QMainWindow):
         self.ui.btn_CTscan_stop_scan.clicked.connect(self.stop_scan)
         self.ui.btn_CTscan_parameter_write.clicked.connect(self.CTscan_parameter_write)
 
+        # doc  https://htmlg.com/html-editor/
+        self.display_doc()
+
+
     def get_motor_name(self):
         """ 获取电机名 """
         motorname = self.ui.comboBox_displacement_move_displacement_number.currentText() + \
                     self.ui.comboBox_displacement_move_displacement_comboBox_displacement_move_displacement_axis.currentText() + \
                     self.ui.comboBox_displacement_move_displacement_type.currentText()
         return str(motorname)
+
+#     doc
+    def display_doc(self):
+        self.ui.textBrowser_doc.setSource(QUrl("./doc.html"))
 
 #    CT scan
     def start_scan(self):
@@ -284,9 +308,23 @@ class GUI(QMainWindow):
         self.write_log(dailylog)
         self.change_Initiallize_btn()
 
+    motorThread = Thread4Motor()
     def motor_parameter_upload(self):
-        self.motorThread = Thread4Motor()
-        if not self.motorThread.isRunning():
+        # self.motorThread = Thread4Motor()
+        # if not self.motorThread.isRunning():
+        #     self.motorThread.finishOneMotor.connect(self.motor_parameter_upload_status_display)
+        #     self.motorThread.finished.connect(self.motor_parameter_upload_thread_end)
+        #     # self.ui.btn_displacement_move_upload.setEnabled(False)
+        #     self.ui.btn_displacement_move_upload.setText("停止运行")
+        #     self.motorThread.start()
+        # else:
+        #     self.motorThread.motor_stop_move()
+        #     self.ui.statusBar.showMessage("停止运行", 1)
+        #     # self.motorThread.terminate()
+        #     # self.motorThread.wait()
+        #     self.ui.btn_displacement_move_upload.setText("上传参数")
+
+        if self.ui.btn_displacement_move_upload.text() == "上传参数":
             self.motorThread.finishOneMotor.connect(self.motor_parameter_upload_status_display)
             self.motorThread.finished.connect(self.motor_parameter_upload_thread_end)
             # self.ui.btn_displacement_move_upload.setEnabled(False)

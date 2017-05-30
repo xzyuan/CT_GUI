@@ -6,155 +6,103 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>902</width>
-    <height>613</height>
+    <width>943</width>
+    <height>628</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>CT操作平台</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="btn_quit">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>530</y>
-      <width>94</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>退出系统</string>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>20</y>
-      <width>821</width>
-      <height>496</height>
+      <x>30</x>
+      <y>10</y>
+      <width>881</width>
+      <height>511</height>
      </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
     </property>
     <property name="currentIndex">
      <number>0</number>
     </property>
     <widget class="QWidget" name="tab_7">
      <attribute name="title">
-      <string>登录</string>
+      <string>装置介绍</string>
      </attribute>
      <widget class="QLabel" name="label_20">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>12</y>
-        <width>775</width>
-        <height>401</height>
+        <x>80</x>
+        <y>30</y>
+        <width>701</width>
+        <height>331</height>
        </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>整体视图.jpg</pixmap>
+       <pixmap>./整体视图.jpg</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
      </widget>
-     <widget class="QPushButton" name="btn_login">
+     <widget class="QWidget" name="horizontalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>743</x>
-        <y>434</y>
-        <width>68</width>
-        <height>31</height>
+        <x>80</x>
+        <y>390</y>
+        <width>701</width>
+        <height>51</height>
        </rect>
       </property>
-      <property name="text">
-       <string>登录</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_login_passwd">
-      <property name="geometry">
-       <rect>
-        <x>463</x>
-        <y>438</y>
-        <width>278</width>
-        <height>19</height>
-       </rect>
-      </property>
-      <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_26">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>438</y>
-        <width>75</width>
-        <height>19</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>          密码：</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_login_username">
-      <property name="geometry">
-       <rect>
-        <x>92</x>
-        <y>438</y>
-        <width>278</width>
-        <height>19</height>
-       </rect>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_27">
-      <property name="geometry">
-       <rect>
-        <x>21</x>
-        <y>438</y>
-        <width>63</width>
-        <height>19</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>用户名：   </string>
-      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>用户名：   </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_login_username">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>          密码：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_login_passwd">
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_login">
+         <property name="text">
+          <string>登录</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>单个电机控制</string>
+      <string>位移运动控制</string>
      </attribute>
      <widget class="QFrame" name="frame">
       <property name="geometry">
@@ -302,7 +250,7 @@
          <widget class="QComboBox" name="comboBox_displacement_move_displacement_comboBox_displacement_move_displacement_axis">
           <item>
            <property name="text">
-            <string>Z</string>
+            <string>X</string>
            </property>
           </item>
           <item>
@@ -312,7 +260,7 @@
           </item>
           <item>
            <property name="text">
-            <string>X</string>
+            <string>Z</string>
            </property>
           </item>
          </widget>
@@ -853,50 +801,80 @@
      <attribute name="title">
       <string>操作日志</string>
      </attribute>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_18">
-        <property name="font">
-         <font>
-          <pointsize>15</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>当天操作历史</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_19">
-        <property name="font">
-         <font>
-          <pointsize>15</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>手动记录</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" rowspan="2">
-       <widget class="QTextEdit" name="textEdit_log_daily_log"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QTextEdit" name="textEdit_log_manual_record"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="btn_log_write">
-        <property name="font">
-         <font>
-          <pointsize>15</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>写入日志</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QTextEdit" name="textEdit_log_daily_log">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>90</y>
+        <width>401</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit_log_manual_record">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>90</y>
+        <width>211</width>
+        <height>201</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_log_write">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>320</y>
+        <width>211</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>写入日志</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>40</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>当天操作历史</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>40</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>手动记录</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -1168,14 +1146,22 @@
     </widget>
     <widget class="QWidget" name="tab_6">
      <attribute name="title">
-      <string>使用手册</string>
+      <string>装置维护</string>
      </attribute>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
-       <widget class="QTextBrowser" name="textBrowser_doc"/>
-      </item>
-     </layout>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="btn_quit">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>540</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>退出系统</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -1183,7 +1169,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>902</width>
+     <width>943</width>
      <height>22</height>
     </rect>
    </property>
@@ -1192,7 +1178,21 @@
      <string>菜单</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
