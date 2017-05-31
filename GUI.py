@@ -13,50 +13,39 @@ class Thread4Motor(QThread):
 
     finishOneMotor = pyqtSignal(str)
     # motor_stop = False  # 表示电机是否停止
-    # motor = Motor( )
+    motor = Motor()
 
     def __init__(self):
         super().__init__()
-        # self.mutex = QMutex()
+        self.mutex = QMutex()
         self.motor_stop = False
 
     def run(self):
         self.motor_stop = False
-        for x in range(1000):
-            # with QMutexLocker(self.mutex):
-            if self.motor_stop:
-                print("sssss")
-                break
-            print(str(x) + "is running")
-            time.sleep(1)
+        filename = "move_parameter.json"
+        with open(filename, 'r') as f:
+            self.motor_abs_move = json.load(f)
 
-        # filename = "move_parameter.json"
-        # with open(filename, 'r') as f:
-        #     self.motor_abs_move = json.load(f)
-        #
-        # for motorname in self.motor_abs_move:
-        #     # 当前电机位移参数为0，则跳过
-        #     if self.motor_abs_move[motorname] == 0:
-        #         continue
-        #     self.motor.initiallize_single(motorname)
-        #
-        #     # with QMutexLocker(self.mutex):
-        #     # if self.motor_stop:
-        #         # self.motor.move_abort(motorname)
-        #         # break
-        #
-        #     absPosition = float(self.motor_abs_move[motorname])
-        #     self.motor.move_abs(motorname, absPosition)
-        #     # print(motorname + str(absPosition))
-        #     # 当前电机运行完成发送发送电机名
-        #     self.finishOneMotor.emit(motorname)
+        for motorname in self.motor_abs_move:
+            # 当前电机位移参数为0，则跳过
+            if self.motor_abs_move[motorname] == 0:
+                continue
+            self.motor.initiallize_single(motorname)
+
+            with QMutexLocker(self.mutex):
+                if self.motor_stop:
+                    break
+
+            absPosition = float(self.motor_abs_move[motorname])
+            self.motor.move_abs(motorname, absPosition)
+            print(motorname + str(absPosition))
+            # 当前电机运行完成发送发送电机名
+            self.finishOneMotor.emit(motorname)
 
     def motor_stop_move(self):
-        # with QMutexLocker(self.mutex):
-        print("thread stop")
-        self.motor_stop = True
-            # for motorname in self.motor_abs_move:
-            #     self.motor.kill(motorname)
+        with QMutexLocker(self.mutex):
+            print("thread stop")
+            self.motor_stop = True
 
 
 class GUI(QMainWindow):
@@ -310,34 +299,15 @@ class GUI(QMainWindow):
 
     motorThread = Thread4Motor()
     def motor_parameter_upload(self):
-        # self.motorThread = Thread4Motor()
-        # if not self.motorThread.isRunning():
-        #     self.motorThread.finishOneMotor.connect(self.motor_parameter_upload_status_display)
-        #     self.motorThread.finished.connect(self.motor_parameter_upload_thread_end)
-        #     # self.ui.btn_displacement_move_upload.setEnabled(False)
-        #     self.ui.btn_displacement_move_upload.setText("停止运行")
-        #     self.motorThread.start()
-        # else:
-        #     self.motorThread.motor_stop_move()
-        #     self.ui.statusBar.showMessage("停止运行", 1)
-        #     # self.motorThread.terminate()
-        #     # self.motorThread.wait()
-        #     self.ui.btn_displacement_move_upload.setText("上传参数")
-
-        if self.ui.btn_displacement_move_upload.text() == "上传参数":
+        if not self.motorThread.isRunning():
             self.motorThread.finishOneMotor.connect(self.motor_parameter_upload_status_display)
             self.motorThread.finished.connect(self.motor_parameter_upload_thread_end)
-            # self.ui.btn_displacement_move_upload.setEnabled(False)
             self.ui.btn_displacement_move_upload.setText("停止运行")
             self.motorThread.start()
         else:
             self.motorThread.motor_stop_move()
             self.ui.statusBar.showMessage("停止运行", 1)
-            # self.motorThread.terminate()
-            # self.motorThread.wait()
             self.ui.btn_displacement_move_upload.setText("上传参数")
-
-        # self.display_motor_position()
 
     def motor_parameter_upload_thread_end(self):
         motorname = self.get_motor_name()

@@ -19,6 +19,12 @@
 
 
 ## working log
+---
+2016-05-31:
+
+* add a new thread to stop motor when upload button pressed 
+ 
+* add parameter restrict
 
 ---
 2016-05-08:

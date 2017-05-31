@@ -9,19 +9,19 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDialog, QMessag
 from mainwindow import Ui_MainWindow
 from PyQt5.QtCore import *
 # Connect to the XPS
-# myxps = XPS_Q8_drivers.XPS()
-# socketId_253 = myxps.TCP_ConnectToServer('192.168.0.253', 5001, 20)  # Check connection passed
-# socketId_254 = myxps.TCP_ConnectToServer('192.168.0.254', 5001, 20)  # Check connection passed
-#
-# # 如果连接失败，弹出提示并退出
-# if socketId_253 == -1 or socketId_254 == -1:
-#     print('Connection to XPS failed, check IP & Port')
-#     app = QApplication(sys.argv)
-#     str_conectfail = 'Connection to XPS failed, check IP & Port'
-#     msg = QMessageBox()
-#     msg.setText(str_conectfail)
-#     msg.exec()
-#     sys.exit()
+myxps = XPS_Q8_drivers.XPS()
+socketId_253 = myxps.TCP_ConnectToServer('192.168.0.253', 5001, 20)  # Check connection passed
+socketId_254 = myxps.TCP_ConnectToServer('192.168.0.254', 5001, 20)  # Check connection passed
+
+# 如果连接失败，弹出提示并退出
+if socketId_253 == -1 or socketId_254 == -1:
+    print('Connection to XPS failed, check IP & Port')
+    app = QApplication(sys.argv)
+    str_conectfail = 'Connection to XPS failed, check IP & Port'
+    msg = QMessageBox()
+    msg.setText(str_conectfail)
+    msg.exec()
+    sys.exit()
 
 
 # xps 文档中推荐使用，用于的显示 error code
