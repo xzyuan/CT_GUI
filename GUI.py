@@ -66,6 +66,8 @@ class GUI(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.motorThread = Thread4Motor()
+
         self.system_enable(False)
         self.display_scan_parameter()
 
@@ -297,7 +299,7 @@ class GUI(QMainWindow):
         self.write_log(dailylog)
         self.change_Initiallize_btn()
 
-    motorThread = Thread4Motor()
+
     def motor_parameter_upload(self):
         if not self.motorThread.isRunning():
             self.motorThread.finishOneMotor.connect(self.motor_parameter_upload_status_display)
