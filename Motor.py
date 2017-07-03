@@ -39,7 +39,7 @@ def displayErrorAndClose(socketId, errorCode, APIName):
     return
 
 # 两个全局Dict, 分别表示两台xps说控制的电机对应关系
-MotorDict_253 = {'G1光栅Y平移': 'Group1.Pos', '样品台Z平移': 'Group2.Pos', '样品台Y旋转': 'Group3.Pos', '样品台Y平移': 'Group4.Pos',
+MotorDict_253 = {'G1光栅Yd平移': 'Group1.Pos', '样品台Z平移': 'Group2.Pos', '样品台Y旋转': 'Group3.Pos', '样品台Y平移': 'Group4.Pos',
                  'G1光栅Y旋转': 'Group5.Pos', 'G2光栅Z平移': 'Group6.Pos', 'G0光栅Z平移': 'Group7.Pos', 'G1光栅Z平移': 'Group8.Pos'}
 
 MotorDict_254 = {'G0光栅X旋转': 'Group3.Pos', 'G0光栅Y旋转': 'Group7.Pos', 'G0光栅Z旋转': 'Group2.Pos', 'G1光栅X旋转': 'Group4.Pos',
